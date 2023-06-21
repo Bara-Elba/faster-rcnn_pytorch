@@ -145,7 +145,7 @@ if __name__ == '__main__':
 	labels_dict = create_label_txt("/content/gwhd_2021/train.csv")
 
 	# Define train and test dataset
-	dataset = CardsDataset(dataset_dir = "/content/gwhd_2021/imges/", csv_file = "/content/gwhd_2021/train.csv",
+	dataset = CardsDataset(dataset_dir = "/content/gwhd_2021/images/", csv_file = "/content/gwhd_2021/train.csv",
 							labels_dict = labels_dict, transforms = get_transforms(train = True))
 
 	dataset_test = CardsDataset(dataset_dir = "/content/gwhd_2021/images/", csv_file = "/content/gwhd_2021/train.csv", 
