@@ -46,10 +46,10 @@ def parse_one_annot(path, filename, labels_dict):
 
 	# class_names = data['class'].unique()
 	class_names = ['wheat']
-	classes_df = data[data["filename"] == filename]["class"]
+	classes_df = data[data["image_id"] == filename]["class"]
 	classes_array = classes_df.to_numpy()
 	
-	boxes_df = data[data["filename"] == filename][["xmin", "ymin", "xmax", "ymax"]]
+	boxes_df = data[data["image_id"] == filename][["xmin", "ymin", "xmax", "ymax"]]
 	boxes_array = boxes_df.to_numpy()
 	
 	classes = []
