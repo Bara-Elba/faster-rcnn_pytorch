@@ -14,18 +14,21 @@ import transforms as T
 
 # Hyperparameters
 test_set_length = 40 		 # Test set (number of images)
-train_batch_size = 2  		 # Train batch size
-test_batch_size = 1    		 # Test batch size
-num_classes = 6        		 # Number of classes
+train_batch_size = 8  		 # Train batch size
+test_batch_size = 8    		 # Test batch size
+num_classes = 2        		 # Number of classes
 learning_rate = 0.005  		 # Learning rate
-num_epochs = 10      	     # Number of epochs
+num_epochs = 100      	     # Number of epochs
 output_dir = "saved_model"   # Output directory to save the model
+
+if not os.path.isdir(os.path.join('/content/',output_dir)):
+	os.mkdir(os.path.join('/content/',output_dir))
 
 def create_label_txt(path_to_csv):
 
 	data = pd.read_csv(path_to_csv)
-	# labels = data['class'].unique()
-	labels = ['wheat']
+	labels = data['class'].unique()
+	# labels = ['wheat']
 
 	labels_dict = {}
 
@@ -44,8 +47,8 @@ def parse_one_annot(path, filename, labels_dict):
 
 	data = pd.read_csv(path)
 
-	# class_names = data['class'].unique()
-	class_names = ['wheat']
+	class_names = data['class'].unique()
+	# class_names = ['wheat']
 	classes_df = data[data["image_id"] == filename]["class"]
 	classes_array = classes_df.to_numpy()
 	
@@ -160,10 +163,10 @@ if __name__ == '__main__':
 
 	# Define train and test dataloaders
 	data_loader = torch.utils.data.DataLoader(dataset, batch_size = train_batch_size, shuffle = True,
-					num_workers = 4, collate_fn = utils.collate_fn)
+					num_workers = 0, collate_fn = utils.collate_fn)
 
 	data_loader_test = torch.utils.data.DataLoader(dataset_test, batch_size = test_batch_size, shuffle = False,
-					num_workers = 4, collate_fn = utils.collate_fn)
+					num_workers = 0, collate_fn = utils.collate_fn)
 
 	print(f"We have: {len(indices)} images in the dataset, {len(dataset)} are training images and {len(dataset_test)} are test images")
 
@@ -181,7 +184,7 @@ if __name__ == '__main__':
 
 	for epoch in range(num_epochs):
 		
-		train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq = 10)
+		train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq = 500)
 		lr_scheduler.step()
 		# Evaluate on the test dataset
 		evaluate(model, data_loader_test, device = device)
