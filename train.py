@@ -44,7 +44,8 @@ def parse_one_annot(path, filename, labels_dict):
 
 	data = pd.read_csv(path)
 
-	class_names = data['class'].unique()
+	# class_names = data['class'].unique()
+	class_names = ['wheat']
 	classes_df = data[data["filename"] == filename]["class"]
 	classes_array = classes_df.to_numpy()
 	
