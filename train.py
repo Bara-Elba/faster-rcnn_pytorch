@@ -24,7 +24,8 @@ output_dir = "saved_model"   # Output directory to save the model
 def create_label_txt(path_to_csv):
 
 	data = pd.read_csv(path_to_csv)
-	labels = data['class'].unique()
+	# labels = data['class'].unique()
+	labels = ['wheat']
 
 	labels_dict = {}
 
@@ -73,7 +74,7 @@ class CardsDataset(torch.utils.data.Dataset):
 		self.csv_file = csv_file
 		self.transforms = transforms
 		self.labels_dict = labels_dict
-		self.image_names = [file for file in sorted(os.listdir(os.path.join(dataset_dir))) if file.endswith('.jpg') or file.endswith('.JPG')]
+		self.image_names = [file for file in sorted(os.listdir(os.path.join(dataset_dir))) if file.endswith('.jpg') or file.endswith('.png')]
 
 	def __getitem__(self, index):
 
@@ -141,13 +142,13 @@ if __name__ == '__main__':
 	# Setting up the device
 	device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
-	labels_dict = create_label_txt("cards_dataset/train_labels.csv")
+	labels_dict = create_label_txt("/content/gwhd_2021/train.csv")
 
 	# Define train and test dataset
-	dataset = CardsDataset(dataset_dir = "cards_dataset/train/", csv_file = "cards_dataset/train_labels.csv",
+	dataset = CardsDataset(dataset_dir = "/content/gwhd_2021/train/", csv_file = "/content/gwhd_2021/train.csv",
 							labels_dict = labels_dict, transforms = get_transforms(train = True))
 
-	dataset_test = CardsDataset(dataset_dir = "cards_dataset/train/", csv_file = "cards_dataset/train_labels.csv", 
+	dataset_test = CardsDataset(dataset_dir = "/content/gwhd_2021/test/", csv_file = "/content/gwhd_2021/train.csv", 
 							labels_dict = labels_dict, transforms = get_transforms(train = False))
 
 	# Split the dataset into train and test
@@ -189,3 +190,4 @@ if __name__ == '__main__':
 
 	# Save the model state	
 	torch.save(model.state_dict(), output_dir + "/model")
+
