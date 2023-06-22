@@ -14,7 +14,7 @@ import transforms as T
 
 # Hyperparameters
 test_set_length = 40 		 # Test set (number of images)
-train_batch_size = 8  		 # Train batch size
+train_batch_size = 16  		 # Train batch size
 test_batch_size = 8    		 # Test batch size
 num_classes = 2        		 # Number of classes
 learning_rate = 0.005  		 # Learning rate
